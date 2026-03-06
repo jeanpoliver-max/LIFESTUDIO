@@ -1,13 +1,627 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>My Google AI Studio App</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Studio Personal - Treinamento de Elite</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            bg: '#050505',
+                            accent: '#10b981',
+                            gold: '#fbbf24',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style type="text/tailwindcss">
+        @layer base {
+            body {
+                @apply bg-brand-bg text-white selection:bg-brand-accent selection:text-black;
+                font-family: 'Inter', sans-serif;
+            }
+            h1, h2, h3, h4 {
+                @apply font-display;
+            }
+        }
+
+        @layer components {
+            .glass {
+                @apply bg-white/5 backdrop-blur-lg border border-white/10;
+            }
+            .text-gradient {
+                @apply bg-clip-text text-transparent bg-gradient-to-r from-white to-white/50;
+            }
+            .reveal {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+        }
+
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            display: flex;
+        }
+
+        .marquee-content {
+            display: flex;
+            animation: marquee 20s linear infinite;
+            min-width: 100%;
+        }
+
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Hide number input arrows */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body class="min-h-screen overflow-x-hidden">
+
+    <!-- Header -->
+    <header class="fixed top-0 left-0 w-full z-50 glass py-4 px-6 md:px-12 flex justify-between items-center">
+        <div class="text-xl font-bold tracking-tighter flex items-center gap-2">
+            <div class="w-8 h-8 bg-brand-accent rounded-full flex items-center justify-center">
+                <i data-lucide="dumbbell" class="text-black w-5 h-5"></i>
+            </div>
+            <span>LIFE <span class="text-brand-accent">STUDIO</span></span>
+        </div>
+        
+        <nav class="hidden md:flex gap-8 text-sm font-medium uppercase tracking-widest text-white/70">
+            <a href="#sobre" class="hover:text-white transition-colors">Sobre</a>
+            <a href="#metodo" class="hover:text-white transition-colors">Método</a>
+            <a href="#imc" class="hover:text-white transition-colors">IMC</a>
+            <a href="#contato" class="hover:text-white transition-colors">Contato</a>
+        </nav>
+
+        <a 
+            href="https://wa.me/5517981327579"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="bg-white text-black px-6 py-2 rounded-full text-sm font-bold hover:bg-brand-accent hover:text-black transition-all duration-300"
+        >
+            AVALIAÇÃO GRÁTIS
+        </a>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="sobre" class="relative h-screen flex items-center justify-center px-6 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-brand-bg z-10"></div>
+            <img 
+                src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop" 
+                alt="Gym Background" 
+                class="w-full h-full object-cover scale-105"
+                referrerpolicy="no-referrer"
+            >
+        </div>
+
+        <div class="relative z-20 max-w-5xl text-center">
+            <span class="hero-sub inline-block mb-4 px-4 py-1 rounded-full border border-white/20 bg-white/5 text-xs font-bold tracking-[0.3em] uppercase opacity-0">
+                Catanduva • Treinamento de Elite
+            </span>
+            <h1 class="hero-title text-5xl md:text-8xl font-black tracking-tighter leading-[0.9] mb-6 text-gradient opacity-0">
+                VOCÊ NÃO PRECISA TREINAR MAIS.<br />
+                <span class="text-brand-accent">PRECISA TREINAR CERTO.</span>
+            </h1>
+            <p class="hero-sub text-lg md:text-xl text-white/60 max-w-2xl mx-auto mb-10 font-light leading-relaxed opacity-0">
+                Há 11 anos transformando vidas em Catanduva através de um método personalizado que respeita sua individualidade e foca em resultados reais.
+            </p>
+            <div class="hero-cta flex flex-col md:flex-row gap-4 justify-center opacity-0">
+                <a 
+                    href="https://wa.me/5517981327579"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="group bg-brand-accent text-black px-8 py-4 rounded-full text-lg font-bold flex items-center justify-center gap-2 hover:scale-105 transition-transform"
+                >
+                    AGENDAR MINHA AVALIAÇÃO
+                    <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                <a 
+                    href="https://wa.me/5517981327579"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="px-8 py-4 rounded-full text-lg font-bold border border-white/20 hover:bg-white/5 transition-colors"
+                >
+                    FALAR COM UM CONSULTOR
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Marquee Authority -->
+    <div class="py-8 bg-white/5 border-y border-white/10 overflow-hidden whitespace-nowrap marquee-container">
+        <div class="marquee-content gap-12 text-sm font-bold uppercase tracking-[0.2em] text-white/40">
+            <span>11 ANOS DE EXPERIÊNCIA</span>
+            <span class="text-brand-accent">•</span>
+            <span>TREINAMENTO PERSONALIZADO</span>
+            <span class="text-brand-accent">•</span>
+            <span>ACOMPANHAMENTO DE ELITE</span>
+            <span class="text-brand-accent">•</span>
+            <span>CATANDUVA - SP</span>
+            <span class="text-brand-accent">•</span>
+            <span>RESULTADOS COMPROVADOS</span>
+            <span class="text-brand-accent">•</span>
+            <!-- Duplicate for seamless loop -->
+            <span>11 ANOS DE EXPERIÊNCIA</span>
+            <span class="text-brand-accent">•</span>
+            <span>TREINAMENTO PERSONALIZADO</span>
+            <span class="text-brand-accent">•</span>
+            <span>ACOMPANHAMENTO DE ELITE</span>
+            <span class="text-brand-accent">•</span>
+            <span>CATANDUVA - SP</span>
+            <span class="text-brand-accent">•</span>
+            <span>RESULTADOS COMPROVADOS</span>
+            <span class="text-brand-accent">•</span>
+        </div>
+    </div>
+
+    <!-- Bento Grid Differentials -->
+    <section id="metodo" class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+        <div class="mb-16 reveal">
+            <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4">POR QUE O <span class="text-brand-accent">LIFE STUDIO?</span></h2>
+            <p class="text-white/50 max-w-xl">Esqueça as academias lotadas e treinos genéricos. Aqui, cada repetição é pensada para o seu objetivo.</p>
+        </div>
+
+        <div id="bento-grid" class="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[240px]">
+            <!-- Item 1 -->
+            <div class="bento-item md:col-span-2 md:row-span-2 glass rounded-3xl p-8 flex flex-col justify-end relative overflow-hidden group">
+                <div class="absolute top-0 right-0 p-8 opacity-20 group-hover:opacity-40 transition-opacity">
+                    <i data-lucide="users" class="w-32 h-32"></i>
+                </div>
+                <h3 class="text-3xl font-bold mb-2">Personal Trainer</h3>
+                <p class="text-white/60">Acompanhamento de perto em cada exercício, garantindo execução perfeita e segurança total.</p>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="bento-item md:col-span-2 glass rounded-3xl p-8 flex flex-col justify-center bg-gradient-to-br from-brand-accent/20 to-transparent">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="p-3 bg-brand-accent rounded-2xl text-black">
+                        <i data-lucide="target" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="text-xl font-bold">Foco em Resultados</h3>
+                </div>
+                <p class="text-white/60">Avaliação física completa e prescrição baseada em ciência para você chegar onde deseja.</p>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="bento-item glass rounded-3xl p-8 flex flex-col justify-center">
+                <i data-lucide="clock" class="text-brand-accent mb-4 w-8 h-8"></i>
+                <h3 class="text-xl font-bold mb-2">11 Anos</h3>
+                <p class="text-sm text-white/50">De tradição e excelência cuidando da saúde de Catanduva.</p>
+            </div>
+
+            <!-- Item 4 -->
+            <div class="bento-item glass rounded-3xl p-8 flex flex-col justify-center">
+                <i data-lucide="map-pin" class="text-brand-accent mb-4 w-8 h-8"></i>
+                <h3 class="text-xl font-bold mb-2">Ambiente VIP</h3>
+                <p class="text-sm text-white/50">Espaço boutique, climatizado e focado no seu treino.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem Section -->
+    <section class="py-24 bg-white/5 reveal">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-4xl md:text-5xl font-bold tracking-tighter mb-8">O PROBLEMA DO <span class="text-red-500">TREINO GENÉRICO</span></h2>
+                <ul class="space-y-6">
+                    <li class="flex items-start gap-4">
+                        <div class="mt-1 w-5 h-5 rounded-full border border-red-500/50 flex items-center justify-center text-red-500 text-xs">✕</div>
+                        <span class="text-white/70">Falta de constância por não ver resultado real</span>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <div class="mt-1 w-5 h-5 rounded-full border border-red-500/50 flex items-center justify-center text-red-500 text-xs">✕</div>
+                        <span class="text-white/70">Treino copiado que não respeita suas limitações</span>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <div class="mt-1 w-5 h-5 rounded-full border border-red-500/50 flex items-center justify-center text-red-500 text-xs">✕</div>
+                        <span class="text-white/70">Execução errada e alto risco de dor ou lesão</span>
+                    </li>
+                    <li class="flex items-start gap-4">
+                        <div class="mt-1 w-5 h-5 rounded-full border border-red-500/50 flex items-center justify-center text-red-500 text-xs">✕</div>
+                        <span class="text-white/70">Falta de progressão de carga e técnica</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="relative aspect-square rounded-3xl overflow-hidden glass">
+                <img 
+                    src="https://images.unsplash.com/photo-1593079831268-3381b0db4a77?q=80&w=2069&auto=format&fit=crop" 
+                    alt="Focus" 
+                    class="w-full h-full object-cover opacity-50"
+                    referrerpolicy="no-referrer"
+                >
+                <div class="absolute inset-0 flex items-center justify-center p-12 text-center">
+                    <p class="text-2xl font-bold italic">"No Life Studio, nós corrigimos o que as grandes academias ignoram."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-24 px-6 reveal">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4">QUEM TREINA, <span class="text-brand-accent">RECOMENDA</span></h2>
+                <p class="text-white/50">A opinião de quem vive a experiência Life Studio todos os dias.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="glass p-8 rounded-3xl relative">
+                    <div class="text-brand-accent mb-4 flex gap-1">
+                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                    </div>
+                    <p class="text-white/80 italic mb-6">"O acompanhamento é outro nível. Em 3 meses tive mais resultado que em 1 ano de academia comum."</p>
+                    <div>
+                        <p class="font-bold">Ricardo S.</p>
+                        <p class="text-xs text-white/40 uppercase tracking-widest">Aluno há 2 anos</p>
+                    </div>
+                </div>
+                <div class="glass p-8 rounded-3xl relative">
+                    <div class="text-brand-accent mb-4 flex gap-1">
+                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                    </div>
+                    <p class="text-white/80 italic mb-6">"O ambiente é super acolhedor e os profissionais são extremamente capacitados. Recomendo muito!"</p>
+                    <div>
+                        <p class="font-bold">Mariana F.</p>
+                        <p class="text-xs text-white/40 uppercase tracking-widest">Aluna há 6 meses</p>
+                    </div>
+                </div>
+                <div class="glass p-8 rounded-3xl relative">
+                    <div class="text-brand-accent mb-4 flex gap-1">
+                        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+                    </div>
+                    <p class="text-white/80 italic mb-6">"Finalmente um lugar onde o treino é pensado para mim. Sem filas, sem enrolação."</p>
+                    <div>
+                        <p class="font-bold">João P.</p>
+                        <p class="text-xs text-white/40 uppercase tracking-widest">Aluno há 1 ano</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IMC Calculator Section -->
+    <section id="imc" class="py-24 px-6 reveal">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="order-2 md:order-1">
+                    <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-6">
+                        CALCULE SEU <span class="text-brand-accent">IMC</span>
+                    </h2>
+                    <p class="text-white/50 mb-8 leading-relaxed">
+                        O Índice de Massa Corporal (IMC) é um ponto de partida para entender sua saúde física. 
+                        Use nossa calculadora para descobrir sua categoria e veja como o Life Studio pode te ajudar a alcançar sua melhor versão.
+                    </p>
+                    
+                    <div class="glass p-8 rounded-[2rem] space-y-6">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold uppercase tracking-widest text-white/40">Peso (kg)</label>
+                                <input 
+                                    id="weight"
+                                    type="number" 
+                                    placeholder="Ex: 75"
+                                    class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand-accent transition-colors"
+                                >
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold uppercase tracking-widest text-white/40">Altura (cm)</label>
+                                <input 
+                                    id="height"
+                                    type="number" 
+                                    placeholder="Ex: 175"
+                                    class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-brand-accent transition-colors"
+                                >
+                            </div>
+                        </div>
+                        
+                        <button 
+                            onclick="calculateIMC()"
+                            class="w-full bg-white text-black font-bold py-4 rounded-xl hover:bg-brand-accent transition-colors flex items-center justify-center gap-2"
+                        >
+                            <i data-lucide="calculator" class="w-5 h-5"></i>
+                            CALCULAR AGORA
+                        </button>
+
+                        <div id="bmi-result" class="hidden pt-6 border-t border-white/10 mt-6">
+                            <div class="flex justify-between items-end mb-2">
+                                <p class="text-white/40 text-sm font-bold uppercase tracking-widest">Seu Resultado</p>
+                                <p id="bmi-value" class="text-3xl font-black text-brand-accent">0.0</p>
+                            </div>
+                            <div class="p-4 bg-brand-accent/10 border border-brand-accent/20 rounded-xl">
+                                <p id="bmi-category" class="text-brand-accent font-bold text-center uppercase tracking-widest">
+                                    -
+                                </p>
+                            </div>
+                            <p class="text-xs text-white/40 mt-4 text-center italic">
+                                *Este cálculo é apenas informativo. Uma avaliação profissional completa é necessária para resultados precisos.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="order-1 md:order-2">
+                    <div class="relative">
+                        <div class="absolute -inset-4 bg-brand-accent/20 blur-3xl rounded-full opacity-30"></div>
+                        <div class="relative glass p-8 rounded-[3rem]">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="p-3 bg-brand-accent/20 rounded-2xl text-brand-accent">
+                                    <i data-lucide="info" class="w-6 h-6"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold">Por que se cuidar?</h3>
+                            </div>
+                            <div class="space-y-6">
+                                <div class="flex gap-4">
+                                    <div class="mt-1">
+                                        <i data-lucide="check-circle-2" class="text-brand-accent w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-white/90">Longevidade</p>
+                                        <p class="text-sm text-white/50">Manter um peso saudável reduz riscos de doenças crônicas.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="mt-1">
+                                        <i data-lucide="check-circle-2" class="text-brand-accent w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-white/90">Energia</p>
+                                        <p class="text-sm text-white/50">O treino certo melhora sua disposição para o dia a dia.</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-4">
+                                    <div class="mt-1">
+                                        <i data-lucide="check-circle-2" class="text-brand-accent w-5 h-5"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-bold text-white/90">Autoestima</p>
+                                        <p class="text-sm text-white/50">Sentir-se bem com seu corpo reflete em todas as áreas da vida.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mt-10 p-6 bg-white/5 rounded-2xl border border-white/10">
+                                <p class="text-sm text-white/70 mb-4">
+                                    Independente do seu resultado, o <strong>Life Studio</strong> tem o plano perfeito para te levar ao próximo nível.
+                                </p>
+                                <a href="https://wa.me/5517981327579" target="_blank" rel="noreferrer" class="text-brand-accent font-bold flex items-center gap-2 hover:gap-3 transition-all">
+                                    Falar com um especialista <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-24 px-6 bg-white/5 reveal">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-4xl font-bold tracking-tighter mb-12 text-center">DÚVIDAS FREQUENTES</h2>
+            <div class="space-y-4">
+                <details class="glass rounded-2xl overflow-hidden group">
+                    <summary class="p-6 cursor-pointer font-bold flex justify-between items-center list-none">
+                        Nunca treinei, consigo começar?
+                        <i data-lucide="chevron-right" class="w-5 h-5 group-open:rotate-90 transition-transform"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-white/60 text-sm leading-relaxed">
+                        Com certeza! Nosso método é ideal para iniciantes, pois você terá um profissional ao seu lado em cada movimento.
+                    </div>
+                </details>
+                <details class="glass rounded-2xl overflow-hidden group">
+                    <summary class="p-6 cursor-pointer font-bold flex justify-between items-center list-none">
+                        Tenho dor ou limitação, dá para adaptar?
+                        <i data-lucide="chevron-right" class="w-5 h-5 group-open:rotate-90 transition-transform"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-white/60 text-sm leading-relaxed">
+                        Sim. Realizamos uma avaliação inicial para entender suas limitações e prescrever exercícios que ajudem na sua recuperação e fortalecimento.
+                    </div>
+                </details>
+                <details class="glass rounded-2xl overflow-hidden group">
+                    <summary class="p-6 cursor-pointer font-bold flex justify-between items-center list-none">
+                        Quanto tempo até ver resultado?
+                        <i data-lucide="chevron-right" class="w-5 h-5 group-open:rotate-90 transition-transform"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-white/60 text-sm leading-relaxed">
+                        Os resultados variam, mas com constância e nosso método, você sentirá melhoras na energia e disposição já nas primeiras semanas.
+                    </div>
+                </details>
+                <details class="glass rounded-2xl overflow-hidden group">
+                    <summary class="p-6 cursor-pointer font-bold flex justify-between items-center list-none">
+                        Como funciona a avaliação?
+                        <i data-lucide="chevron-right" class="w-5 h-5 group-open:rotate-90 transition-transform"></i>
+                    </summary>
+                    <div class="px-6 pb-6 text-white/60 text-sm leading-relaxed">
+                        É um momento onde conversamos sobre seus objetivos, histórico de saúde e realizamos testes de movimento para criar seu plano ideal.
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/5517981327579" target="_blank" rel="noopener noreferrer" class="fixed bottom-8 right-8 z-[100] bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center justify-center group">
+        <i data-lucide="message-circle" class="w-8 h-8"></i>
+        <span class="max-w-0 overflow-hidden group-hover:max-w-xs group-hover:ml-2 transition-all duration-500 whitespace-nowrap font-bold">Falar no WhatsApp</span>
+    </a>
+
+    <!-- CTA Final -->
+    <section id="contato" class="py-24 px-6 text-center reveal">
+        <div class="max-w-4xl mx-auto glass p-12 md:p-20 rounded-[3rem] relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-brand-accent to-transparent"></div>
+            <h2 class="text-4xl md:text-7xl font-black tracking-tighter mb-8">
+                PRONTO PARA A SUA <br />
+                <span class="text-brand-accent">TRANSFORMAÇÃO?</span>
+            </h2>
+            <p class="text-xl text-white/60 mb-12">
+                Agende agora sua avaliação gratuita e descubra por que somos referência em treinamento personalizado em Catanduva.
+            </p>
+            <a 
+                href="https://wa.me/5517981327579"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center gap-4 bg-brand-accent text-black px-12 py-6 rounded-full text-xl font-black hover:scale-105 transition-transform shadow-[0_0_40px_rgba(16,185,129,0.3)]"
+            >
+                FALAR NO WHATSAPP
+                <i data-lucide="phone" class="w-6 h-6"></i>
+            </a>
+            
+            <div class="mt-16 grid md:grid-cols-2 gap-8 text-left border-t border-white/10 pt-12">
+                <div>
+                    <p class="text-xs font-bold text-brand-accent uppercase tracking-widest mb-2">Localização</p>
+                    <p class="text-white/70">Rua Francisco Beltrão, 128<br />Residencial Isabel – Catanduva/SP</p>
+                </div>
+                <div>
+                    <p class="text-xs font-bold text-brand-accent uppercase tracking-widest mb-2">Redes Sociais</p>
+                    <div class="flex gap-4">
+                        <a href="https://www.instagram.com/lifestudiopersonalcatanduva/" target="_blank" rel="noreferrer" class="hover:text-brand-accent transition-colors"><i data-lucide="instagram"></i></a>
+                        <a href="https://www.facebook.com/people/Life-Studio-Personal/100063636157634/" target="_blank" rel="noreferrer" class="hover:text-brand-accent transition-colors"><i data-lucide="facebook"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 px-6 border-t border-white/5 text-center text-white/30 text-xs uppercase tracking-[0.3em]">
+        <p>© 2026 LIFE STUDIO PERSONAL • TODOS OS DIREITOS RESERVADOS</p>
+    </footer>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // IMC Calculation Logic
+        function calculateIMC() {
+            const weight = parseFloat(document.getElementById('weight').value);
+            const height = parseFloat(document.getElementById('height').value) / 100;
+            const resultDiv = document.getElementById('bmi-result');
+            const bmiValue = document.getElementById('bmi-value');
+            const bmiCategory = document.getElementById('bmi-category');
+
+            if (weight > 0 && height > 0) {
+                const bmi = weight / (height * height);
+                bmiValue.innerText = bmi.toFixed(1);
+                
+                let category = '';
+                if (bmi < 18.5) category = 'Abaixo do peso';
+                else if (bmi < 25) category = 'Peso normal';
+                else if (bmi < 30) category = 'Sobrepeso';
+                else if (bmi < 35) category = 'Obesidade Grau I';
+                else if (bmi < 40) category = 'Obesidade Grau II';
+                else category = 'Obesidade Grau III';
+
+                bmiCategory.innerText = category;
+                resultDiv.classList.remove('hidden');
+                
+                // Animation for result
+                gsap.from(resultDiv, {
+                    y: 20,
+                    opacity: 0,
+                    duration: 0.5,
+                    ease: "power2.out"
+                });
+            } else {
+                alert("Por favor, insira valores válidos para peso e altura.");
+            }
+        }
+
+        // GSAP Animations
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            // Set initial states for hero elements
+            gsap.set(".hero-title, .hero-sub, .hero-cta", { y: 50, opacity: 0 });
+
+            // Hero Entrance
+            const tl = gsap.timeline();
+            tl.to(".hero-title", {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                ease: "power4.out",
+                stagger: 0.2
+            })
+            .to(".hero-sub", {
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                ease: "power3.out"
+            }, "-=0.5")
+            .to(".hero-cta", {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 0.5,
+                ease: "back.out(1.7)"
+            }, "-=0.3");
+
+            // Scroll Reveal
+            gsap.utils.toArray('.reveal').forEach((el) => {
+                gsap.to(el, {
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "top 85%",
+                        toggleActions: "play none none none"
+                    },
+                    y: 0,
+                    opacity: 1,
+                    duration: 1,
+                    ease: "power3.out"
+                });
+            });
+
+            // Bento Grid Stagger
+            gsap.from(".bento-item", {
+                scrollTrigger: {
+                    trigger: "#bento-grid",
+                    start: "top 75%"
+                },
+                y: 40,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.15,
+                ease: "power2.out"
+            });
+        });
+    </script>
+</body>
+</html>
