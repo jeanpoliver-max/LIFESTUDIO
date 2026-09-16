@@ -63,6 +63,8 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://i.imgur.com">
+    <link rel="preconnect" href="https://images.unsplash.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS CDN -->
@@ -216,6 +218,7 @@
                 alt="Gym Background" 
                 class="w-full h-full object-cover scale-105"
                 referrerpolicy="no-referrer"
+                fetchpriority="high"
             >
         </div>
 
@@ -308,7 +311,7 @@
             <!-- Item 1 -->
             <div class="bento-item md:col-span-2 md:row-span-2 glass rounded-3xl p-8 flex flex-col justify-end relative overflow-hidden group">
                 <div class="absolute inset-0 z-0">
-                    <img src="https://i.imgur.com/3RkXbQX.png" alt="Personal Trainer" class="w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity" referrerpolicy="no-referrer">
+                    <img src="https://i.imgur.com/3RkXbQX.png" alt="Personal Trainer" class="w-full h-full object-cover opacity-30 group-hover:opacity-50 transition-opacity" referrerpolicy="no-referrer" loading="lazy">
                     <div class="absolute inset-0 bg-gradient-to-t from-brand-bg via-transparent to-transparent"></div>
                 </div>
                 <div class="relative z-10">
@@ -374,6 +377,7 @@
                     alt="Focus" 
                     class="w-full h-full object-cover opacity-50"
                     referrerpolicy="no-referrer"
+                    loading="lazy"
                 >
                 <div class="absolute inset-0 flex items-center justify-center p-12 text-center">
                     <p class="text-2xl font-bold italic">"No Life Studio, nós corrigimos o que as grandes academias ignoram."</p>
@@ -481,6 +485,7 @@
                         alt="Área Livre Life Studio" 
                         class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                         referrerpolicy="no-referrer"
+                        loading="lazy"
                     >
                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-10">
                         <div class="bg-brand-accent w-12 h-1 mb-4 rounded-full"></div>
@@ -632,6 +637,7 @@
                         alt="Agora Aceitamos TotalPass e Gympass" 
                         class="w-full h-auto object-cover transform transition-transform duration-700 group-hover:scale-105"
                         referrerpolicy="no-referrer"
+                        loading="lazy"
                     >
                     <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </div>
